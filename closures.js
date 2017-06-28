@@ -218,17 +218,12 @@ var secondLevelFriends = ["Anne", "Harry", "Quinton"];
 var allUsers = ["Tom", "Dick", "Harry", "Anne", "Quinton", "Katie", "Mary"];
 
 function findPotentialFriends(existingFriends) {
-  for (var i = 0; i < existingFriends.length; i++) {
-    if (existingFriends[i] === isNotAFriend) {
-      return false;
-    }
+  return function (friend) { 
+    return existingFriends.indexOf(friend) === -1;
   }
-  return true;
 }
 
 var isNotAFriend = findPotentialFriends( friends );
-// isNotAFriend(allUsers[0]); // false
-// isNotAFriend(secondLevelFriends[2]); // true
 
 
 /******************************************************************************\
@@ -238,8 +233,12 @@ var isNotAFriend = findPotentialFriends( friends );
 method, find all potential second level friends as well as potential friends
 from allUsers. */
 
-var potentialSecondLevelFriends = "?";
-var allPotentialFriends = "?";
+function callback(friend) {
+  return friends.indexOf(friend) === -1;
+}
+
+var potentialSecondLevelFriends = secondLevelFriends.filter(callback);
+var allPotentialFriends = allUsers.filter(callback);
 
 
 /******************************************************************************\
@@ -261,13 +260,16 @@ to 5. What we need to do is console.log(i) so that it logs like so:
 
  Fix the code below to log the desired output.
  */
+function callback2(index) {
+    return function () {
+        console.log(index);
+    }
+ }
 
 function timeOutCounter() {
   for (var i = 0; i <= 5; i++) {
     
-    setTimeout(function() {
-    	console.log(i)
-	}, i * 1000)
+    setTimeout(callback2(i), i * 1000)
   }
 }
 timeOutCounter();
